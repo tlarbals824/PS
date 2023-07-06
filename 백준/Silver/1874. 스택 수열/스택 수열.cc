@@ -37,6 +37,11 @@ void stackPop(){
     cnt++;
     stackNum.pop();
     stackOp.push_back('-');
+    if(stackNum.size() > 0){
+        if(stackNum.top() == result[cnt]){
+            stackPop();
+        }
+    }
 }
 
 void cal(){
@@ -44,13 +49,6 @@ void cal(){
         stackPush(i);
         if(stackNum.top() == result[cnt]){
             stackPop();
-            for(int j = stackNum.size(); j>0;j--){
-                if( stackNum.top() == result[cnt]){
-                    stackPop();
-                }else{
-                    break;
-                }
-            }
         }
     }
 }
@@ -67,20 +65,3 @@ int main(){
 
     start();
 }
-
-// 1 2 3 4 5 6 7 8 
-
-// 1 2 3 4 : 
-// 1 2 : 4 3
-// 1 2 5 6 : 4 3
-// 1 2 5 : 4 3 6
-// 1 2 5 7 8 : 4 3 6
-// 1 2 5 : 4 3 6 8 7
-// 4 3 6 8 7 5 2 1
-
-// 4 3 6 8 7 5 2 1
-
-// push 시작
-// 입력 수가 수열 순서의 수와 같음 : 스택 pop
-// pop이 됐으면 상위 수와 수열의 수가 같은지 확인 -> 같으면 pop (반복)
-// 다르면 push 시작
