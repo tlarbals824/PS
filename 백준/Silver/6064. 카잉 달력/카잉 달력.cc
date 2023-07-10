@@ -8,9 +8,8 @@ int n,m,x,y;
 
 int cal(){
     for(int i = 0 ; i < n ;i++){
-        int tmp = m*i+y;
-        if((tmp-x)%n==0){
-            return tmp;
+        if((m*i+y-x)%n==0){
+            return m*i+y;
         }
     }
     return -1;
