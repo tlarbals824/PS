@@ -7,7 +7,7 @@ int n,m,x,y;
 // n*a+x = m*b+y
 
 int cal(){
-    for(int i = 0 ; i <= n ;i++){
+    for(int i = 0 ; i < n ;i++){
         int tmp = m*i+y;
         if((tmp-x)%n==0){
             return tmp;
