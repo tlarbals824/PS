@@ -1,5 +1,3 @@
-#include <math.h>
-
 #include <algorithm>
 #include <iostream>
 #include <set>
@@ -31,10 +29,6 @@ void input() {
 }
 
 void output() { cout << result << '\n'; }
-
-/**
- * 5 : 5(0) -> 0 : 1 (-1) -> -10 : 1 (-11) -> -110 : 1(-111) ->
- */
 
 void dfs(int cnt, int buildNum, int restNum) {
   if (cnt == numString.length()) {
