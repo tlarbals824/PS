@@ -4,7 +4,7 @@
 using namespace std;
 
 int n, m;
-int paper[1000][1000][2] = {0};
+int paper[600][600][2] = {0};
 int result = 0;
 
 int dirX[3] = {0,1, 0};
