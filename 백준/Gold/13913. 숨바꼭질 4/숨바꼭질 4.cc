@@ -11,7 +11,7 @@ using namespace std;
 
 int n,k;
 int checkPos[100100];
-queue<pair<int,int> > pq;
+queue<pair<int,int> > q;
 vector<int> resultPath;
 int resultTime=10e8;
 
@@ -37,15 +37,13 @@ void output(){
 }
 
 void cal(){
-    pq.push(make_pair(n,0));
-    while(!pq.empty()){
-        pair<int,int> popTmp = pq.front();
-        pq.pop();
-
-        // cout<<popTmp.first<<' '<<popTmp.second<<'\n';
+    q.push(make_pair(n,0));
+    while(!q.empty()){
+        pair<int,int> popTmp = q.front();
+        q.pop();
 
         if(popTmp.first==k){
-            resultTime=min(resultTime, popTmp.second);
+            resultTime=popTmp.second;
             return;
         }
 
@@ -53,7 +51,7 @@ void cal(){
             if(checkPos[popTmp.first+1]==-1){
                 checkPos[popTmp.first+1]=popTmp.first;
 
-                pq.push(make_pair(popTmp.first+1, popTmp.second+1));
+                q.push(make_pair(popTmp.first+1, popTmp.second+1));
             }
         }
 
@@ -61,7 +59,7 @@ void cal(){
             if(checkPos[popTmp.first-1]==-1){
                 checkPos[popTmp.first-1]=popTmp.first;
 
-                pq.push(make_pair(popTmp.first-1, popTmp.second+1));
+                q.push(make_pair(popTmp.first-1, popTmp.second+1));
             }
         }
 
@@ -69,13 +67,9 @@ void cal(){
             if(checkPos[popTmp.first*2]==-1){
                 checkPos[popTmp.first*2]=popTmp.first;
 
-                pq.push(make_pair(popTmp.first*2, popTmp.second+1));
+                q.push(make_pair(popTmp.first*2, popTmp.second+1));
             }
         }
-
-        
-
-        
     }
 }
 
