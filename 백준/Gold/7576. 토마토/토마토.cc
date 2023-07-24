@@ -5,9 +5,9 @@ using namespace std;
 
 int n,m;
 int box[1100][1100];
-int checkBox[1100][1100];
 bool finishFlag = false;
-priority_queue<pair<int, pair<int,int> > > pq;
+int result=0;
+queue<pair<int, pair<int,int> > > q;
 
 int dirY[4]={-1,0,1,0};
 int dirX[4]={0,1,0,-1};
@@ -18,50 +18,46 @@ void input(){
         for(int j=0;j<n;j++){
             cin>>box[i][j];
             if(box[i][j]==1){
-                pq.push(make_pair(0,make_pair(i,j)));
-                checkBox[i][j]=0;
-            }else{
-                checkBox[i][j]=-1;
+                q.push(make_pair(-1,make_pair(i,j)));
             }
         }
     }
 }
 
 void output(){
-    int result=0;
     bool flag=false;
     for(int i=0;i<m;i++){
         for(int j=0;j<n;j++){
-            result=max(result,checkBox[i][j]);
-            if(checkBox[i][j]==-1&&box[i][j]!=-1){
-                result=-1;
+            result=max(result,box[i][j]);
+            if(box[i][j]==0){
                 flag=true;
                 break;
             }
         }
         if(flag) break;
     }
-    cout<<result<<'\n';
+    if(flag){
+        cout<<-1<<'\n';
+    }else{
+        cout<<result-1<<'\n';
+    }
 }
 
 void cal(){
-    while(!pq.empty()){
-        int time = -pq.top().first;
-        pair<int,int> pos = pq.top().second;
+    while(!q.empty()){
+        int time = -q.front().first;
+        pair<int,int> pos = q.front().second;
 
-        pq.pop();
+        q.pop();
 
         for(int i=0;i<4;i++){
             int tmpY = pos.first+dirY[i];
             int tmpX = pos.second+dirX[i];
-            if(tmpY<0||tmpY>m) continue;
-            if(tmpX<0||tmpX>n) continue;
-            if(box[tmpY][tmpX]==-1 || box[tmpY][tmpX]==1) continue;
-
-            if(checkBox[tmpY][tmpX]==-1){
-                checkBox[tmpY][tmpX]=time+1;
-                pq.push(make_pair(-(time+1),make_pair(tmpY,tmpX)));
-            }
+            if(tmpY<0||tmpY>=m) continue;
+            if(tmpX<0||tmpX>=n) continue;
+            if(box[tmpY][tmpX]!=0) continue;
+            box[tmpY][tmpX]=time+1;
+            q.push(make_pair(-(time+1),make_pair(tmpY,tmpX)));
         }
     }
 }
