@@ -30,8 +30,8 @@ void recursive(int y,int x){
             for(int j=0;j<m;j++){
                 if(check[i][j]==0){
                     int sum=paper[i][j];
-                    if(tmpPaper[i][j]==1&&check[i][j]==0){
-                        check[i][j]=1;
+                    check[i][j]=1;
+                    if(tmpPaper[i][j]==1){
                         for(int a=j+1;a<m;a++){
                             if(tmpPaper[i][a]==1){
                                 check[i][a]=1;
@@ -40,8 +40,7 @@ void recursive(int y,int x){
                                 break;
                             }
                         }
-                    }else if(tmpPaper[i][j]==-1&&check[i][j]==0){
-                        check[i][j]=1;
+                    }else if(tmpPaper[i][j]==-1){
                         for(int a=i+1;a<n;a++){
                             if(tmpPaper[a][j]==-1){
                                 check[a][j]=1;
