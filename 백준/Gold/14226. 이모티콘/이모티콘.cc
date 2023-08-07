@@ -17,7 +17,7 @@ void output(){
 void recursive(int cnt, int copy, int time, bool copyFlag){
     if(time>s) return;
     // cout<<"cnt: "<<cnt<<" copy: "<<copy<<" time: "<<time<<'\n';
-    if(cnt<0||cnt>1100) return;
+    if(cnt<0||cnt>1000) return;
     if(time>=result) return;
     if(cnt==s){
         result=min(result, time);
