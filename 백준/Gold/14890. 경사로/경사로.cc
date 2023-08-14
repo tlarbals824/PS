@@ -26,37 +26,36 @@ void cal(){
         bool flag = true;
         for(int j=0;j<n;j++){
             int current = dp[i][j];
-            if(previous!=current){
-                if(previous-current==1){
-                    for(int z=0;z<l;z++){
-                        if((current!=dp[i][j+z])||(check[j+z]!=0)||(j+z>=n)){
-                            flag=false;
-                            break;
-                        }
+            if(previous==current) continue;
+            if(previous-current==1){
+                for(int z=0;z<l;z++){
+                    if((current!=dp[i][j+z])||(check[j+z]!=0)||(j+z>=n)){
+                        flag=false;
+                        break;
                     }
-                    if(flag){
-                        for(int z=0;z<l;z++)
+                }
+                if(flag){
+                    for(int z=0;z<l;z++)
                         check[j+z]=1;
-                    }
-                }
-                if(current-previous==1){
-                    int tmp = previous;
-                    for(int z=1;z<=l;z++){
-                        if((tmp!=dp[i][j-z])||(check[j-z]!=0)||(j-z<0)){
-                            flag=false;
-                            break;
-                        }
-                    }
-                    if(flag){
-                        for(int z=1;z<=l;z++)
-                        check[j-z]=1;
-                    }
-                }
-                if(abs(previous-current)>1){
-                    flag=false;
-                    break;
                 }
             }
+            if(current-previous==1){
+                int tmp = previous;
+                for(int z=1;z<=l;z++){
+                    if((tmp!=dp[i][j-z])||(check[j-z]!=0)||(j-z<0)){
+                        flag=false;
+                        break;
+                    }
+                }
+                if(flag){
+                    for(int z=1;z<=l;z++)
+                        check[j-z]=1;
+                }
+            }
+            if(abs(previous-current)>1){
+                flag=false;
+                break;
+            }    
             if(!flag) break;
             previous=current;
         }
@@ -69,37 +68,36 @@ void cal(){
         bool flag = true;
         for(int j=0;j<n;j++){
             int current = dp[j][i];
-            if(previous!=current){
-                if(previous-current==1){
-                    int tmp = current;
-                    for(int z=0;z<l;z++){
-                        if((tmp!=dp[j+z][i])||(check[j+z]!=0)||(j+z>=n)){
-                            flag=false;
-                            break;
-                        }
+            if(previous==current) continue;
+            if(previous-current==1){
+                int tmp = current;
+                for(int z=0;z<l;z++){
+                    if((tmp!=dp[j+z][i])||(check[j+z]!=0)||(j+z>=n)){
+                        flag=false;
+                        break;
                     }
-                    if(flag){
-                        for(int z=0;z<l;z++)
+                }
+                if(flag){
+                    for(int z=0;z<l;z++)
                         check[j+z]=1;
+                }
+            }
+            if(current-previous==1){
+                int tmp = previous;
+                for(int z=1;z<=l;z++){
+                    if((tmp!=dp[j-z][i])||(check[j-z]!=0)||(j-z<0)){
+                        flag=false;
+                        break;
                     }
                 }
-                if(current-previous==1){
-                    int tmp = previous;
-                    for(int z=1;z<=l;z++){
-                        if((tmp!=dp[j-z][i])||(check[j-z]!=0)||(j-z<0)){
-                            flag=false;
-                            break;
-                        }
-                    }
-                    if(flag){
-                        for(int z=1;z<=l;z++)
+                if(flag){
+                    for(int z=1;z<=l;z++)
                         check[j-z]=1;
-                    }
                 }
-                if(abs(previous-current)>1){
-                    flag=false;
-                    break;
-                }
+            }
+            if(abs(previous-current)>1){
+                flag=false;
+                break;
             }
             if(!flag) break;
             previous=current;
