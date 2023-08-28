@@ -19,6 +19,7 @@ int inputT[2000000]={0};
 int inputP[2000000]={0};
 int result[2000000]={0};
 int tmp = 0;
+int outputTmp=0;
 
 void input(){
     cin>>n;
@@ -28,15 +29,21 @@ void input(){
 }
 
 void output(){
-    cout<<result[1]<<'\n';
+    cout<<result[n]<<'\n';
 }
 
 void cal(){
-    for(int i=n;i>=1;i--){
-        if(i+inputT[i]-1>n) result[i]=result[i+1];
-        else result[i]=max(result[i+inputT[i]]+inputP[i], result[i+1]);
+    for(int i=1;i<=n;i++){
+        result[i]=max(result[i],result[i-1]);
+        if(i+inputT[i]-1>n) continue;
+        if(result[i+inputT[i]-1]<result[i-1]+inputP[i]){
+            result[i+inputT[i]-1]=result[i-1]+inputP[i];
+        }
+        // for(int j=1;j<=n;j++){
+        //     cout<<result[j]<<' ';
+        // }
+        // cout<<'\n';
     }
-
 }
 
 void start(){
