@@ -17,7 +17,7 @@ void input(){
         cin>>w>>v;
         dp.push_back({w,v});
     }
-    sort(dp.begin(), dp.end());
+    // sort(dp.begin(), dp.end());
 }
 
 void output(){
