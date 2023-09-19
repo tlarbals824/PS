@@ -26,10 +26,10 @@ void cal(){
         // node[to].insert(from);
     }
     queue<int> q;
+    int checkTmp[600]={0};
     for(int i=1;i<=n;i++){
-        int checkTmp[600]={0};
+        fill_n(checkTmp, n+1, 0);
         q.push(i);
-
         while(!q.empty()){
             int tmp = q.front();
             q.pop();
