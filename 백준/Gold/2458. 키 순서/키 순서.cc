@@ -25,9 +25,9 @@ void cal(){
         node[from].insert(to);
         // node[to].insert(from);
     }
+    queue<int> q;
     for(int i=1;i<=n;i++){
         int checkTmp[600]={0};
-        queue<int> q;
         q.push(i);
 
         while(!q.empty()){
