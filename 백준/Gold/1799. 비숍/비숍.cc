@@ -23,20 +23,11 @@ void output(){
     cout<<result<<'\n';
 }
 
-void printCheck(){
-    for(int i=1;i<=n;i++){
-        for(int j=1;j<=n;j++){
-            cout<<check[i][j]<<' ';
-        }
-        cout<<'\n';
-    }
-}
-
-void checkBoardBlack(int y,int x,int cnt){
+void checkBoard(int y,int x,int cnt, int addNum){
     if(y==n+1){
         tmpCnt=max(tmpCnt,cnt);
     }else if(x>=n+1){
-        checkBoardBlack(y+1,((y)%2+1),cnt);
+        checkBoard(y+1,((y+addNum)%2+1),cnt,addNum);
     }else{
         if(board[y][x]==1){
             bool flag=false;
@@ -56,43 +47,11 @@ void checkBoardBlack(int y,int x,int cnt){
             }
             if(!flag){
                 check[y][x]=1;
-                checkBoardBlack(y,x+2,cnt+1);
+                checkBoard(y,x+2,cnt+1,addNum);
                 check[y][x]=0;
             }
         }
-        checkBoardBlack(y,x+2,cnt);
-    }
-}
-
-void checkBoardWhite(int y,int x,int cnt){
-    if(y==n+1){
-        tmpCnt=max(tmpCnt,cnt);
-    }else if(x>=n+1){
-        checkBoardWhite(y+1,((y+1)%2+1),cnt);
-    }else{
-        if(board[y][x]==1){
-            bool flag=false;
-            for(int i=x-1;i>0;i--){
-                if(y+i-x<1) break;
-                if(check[y+i-x][i]==1){
-                    flag=true;
-                    break;
-                }
-            }
-            for(int i=x+1;i<=n;i++){
-                if(y-i+x<1) break;
-                if(check[y-i+x][i]==1){
-                    flag=true;
-                    break;
-                }
-            }
-            if(!flag){
-                check[y][x]=1;
-                checkBoardWhite(y,x+2,cnt+1);
-                check[y][x]=0;
-            }
-        }
-        checkBoardWhite(y,x+2,cnt);
+        checkBoard(y,x+2,cnt,addNum);
     }
 }
 
@@ -106,11 +65,11 @@ void initialize(){
 
 void cal(){
     initialize();
-    checkBoardBlack(1,1,0);
+    checkBoard(1,1,0,0);
     result+=tmpCnt;
     tmpCnt=0;
     initialize();
-    checkBoardWhite(1,2,0);
+    checkBoard(1,2,0,1);
     result+=tmpCnt;
 
 }
