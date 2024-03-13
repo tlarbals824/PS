@@ -7,8 +7,8 @@ using namespace std;
 
 int t;
 int aCount, bCount;
-vector<int> numsA(1010);
-vector<int> numsB(1010);
+int numsA[1010];
+int numsB[1010];
 
 long long result = 0;
 int aSum=0;
@@ -37,7 +37,7 @@ void output() {
     cout << result << '\n';
 }
 
-void recursive(int start, int end, int sum, vector<int> &nums, map<int, long long> &subSetValue, bool back) {
+void recursive(int start, int end, int sum, int* nums, map<int, long long> &subSetValue, bool back) {
     if(start > end) return;
 
     
