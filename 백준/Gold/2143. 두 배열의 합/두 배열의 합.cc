@@ -5,7 +5,7 @@
 
 using namespace std;
 
-long long t;
+int t;
 int aCount, bCount;
 vector<int> numsA(1010);
 vector<int> numsB(1010);
@@ -38,8 +38,6 @@ void output() {
 }
 
 void recursive(int start, int end, int sum, vector<int> &nums, map<int, long long> &subSetValue, bool back) {
-    // cout << start << ' ' << end << ' ' << sum << '\n';
-
     if(start > end) return;
 
     
@@ -57,19 +55,15 @@ void recursive(int start, int end, int sum, vector<int> &nums, map<int, long lon
 
 void cal() {
     recursive(1, aCount, aSum, numsA, aSubSetValue,false);
-    // cout<<'\n';
     recursive(1, bCount, bSum, numsB, bSubSetValue,false);
-
-    // printMap(aSubSetValue);
 
     for (auto iter = aSubSetValue.begin(); iter != aSubSetValue.end(); iter++) {
         int key = iter->first;
         long long value = iter->second;
 
         auto target = bSubSetValue.lower_bound(t - key);
-        long long targetValue = target -> second;
         if (target != bSubSetValue.end() && target->first == t - key) {
-            result += (long long)(value * targetValue);
+            result += (value * target->second);
         }
     }
 }
