@@ -1,7 +1,5 @@
 #include <algorithm>
 #include <iostream>
-#include <queue>
-#include <set>
 #include <vector>
 using namespace std;
 
@@ -12,37 +10,14 @@ short dirX[4] = {-1, 1, 0, 0};
 
 short result = 2000;
 
-struct Line {
-    short line;
-    int count;
-
-    bool operator<(Line other) const {
-        return count > other.count;
-    }
-};
-
 void switchBit(short &num, short idx) {
     short tmp = 1 << idx;
-    if (num & tmp) {
-        num = num ^ tmp;
-    } else {
-        num = num | tmp;
-    }
+    num = (num & tmp ? num ^ tmp : num | tmp);
 }
 
 bool isMarkBit(short num, short idx) {
     short tmp = 1 << idx;
     return num & tmp;
-}
-
-void printSwitch() {
-    for (int i = 0; i < 10; i++) {
-        for (int j = 0; j < 10; j++) {
-            cout << (isMarkBit(switchs[i], j) ? 'O' : '#');
-        }
-        cout << '\n';
-    }
-    cout << '\n';
 }
 
 void input() {
