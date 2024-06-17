@@ -6,8 +6,6 @@ class Main {
     public static void main(String[] args) throws Exception {
         var br = new BufferedReader(new InputStreamReader(System.in));
 
-        // a   b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
-        // 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
         int maxNumber = 35;
 
         String ab[] = br.readLine().split(" ");
@@ -21,32 +19,33 @@ class Main {
         int aNumber = 0;
         int bNumber = 0;
 
+        int count = 0;
+
         for (int i = maxValueA; i <= maxNumber; i++) {
             long calAX = calX(a, i);
+            if (calAX < 0)
+                continue;
             for (int j = maxValueB; j <= maxNumber; j++) {
                 long calBX = calX(b, j);
+                if (calBX < 0)
+                    continue;
 
                 if (calAX == calBX) {
-                    if (x != -1) {
-                        System.out.println("Multiple");
-                        return;
-                    } else {
-                        if(i==j) continue;
-                        x = calAX;
-                        aNumber = i;
-                        bNumber = j;
-                    }
+                    count++;
+                    x = calAX;
+                    aNumber = i;
+                    bNumber = j;
                 }
             }
         }
 
-        if(x==-1 || aNumber==bNumber){
+        if (count > 1) {
+            System.out.println("Multiple");
+        } else if (x < 0 || aNumber == bNumber) {
             System.out.println("Impossible");
-        }else{
-            System.out.println(x+" "+aNumber+" "+bNumber);
+        } else {
+            System.out.println(x + " " + (aNumber+1) + " " + (bNumber+1));
         }
-
-        //
     }
 
     static int[] convertInteger(String number) {
@@ -70,8 +69,18 @@ class Main {
 
     static long calX(int arr[], int baseNumber) {
         long result = 0;
-        for(int i=0;i<arr.length;i++){
-            result+=((long)Math.pow(baseNumber, i)*arr[arr.length-i-1]);
+        for (int i = 0; i < arr.length; i++) {
+            result += pow(baseNumber, i) * arr[arr.length - i - 1];
+            if (result < 0)
+                return -1;
+        }
+        return result;
+    }
+
+    static long pow(int number, int pow) {
+        long result = 1;
+        for (int i = 0; i < pow; i++) {
+            result += number;
         }
         return result;
     }
