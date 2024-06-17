@@ -6,7 +6,10 @@ class Main {
     public static void main(String[] args) throws Exception {
         var br = new BufferedReader(new InputStreamReader(System.in));
 
-        int maxNumber = 35;
+        int maxNumber = 36;
+
+        // a   b  c  d  e  f  g  h  i  j  k  l  m  n  o  p  q  r  s  t  u  v  w  x  y  z
+        // 10 11 12 13 14 15 16 17 18 19 20 21 22 23 24 25 26 27 28 29 30 31 32 33 34 35
 
         String ab[] = br.readLine().split(" ");
         int a[] = convertInteger(ab[0]);
@@ -21,14 +24,13 @@ class Main {
 
         int count = 0;
 
-        for (int i = maxValueA; i <= maxNumber; i++) {
+        for (int i = maxValueA+1; i <= maxNumber; i++) {
             long calAX = calX(a, i);
-            if (calAX < 0)
-                continue;
-            for (int j = maxValueB; j <= maxNumber; j++) {
+            if(calAX < 0) continue;
+            for (int j = maxValueB+1; j <= maxNumber; j++) {
+                if(i==j) continue;
                 long calBX = calX(b, j);
-                if (calBX < 0)
-                    continue;
+                if(calBX < 0) continue;
 
                 if (calAX == calBX) {
                     count++;
@@ -44,7 +46,7 @@ class Main {
         } else if (x < 0 || aNumber == bNumber) {
             System.out.println("Impossible");
         } else {
-            System.out.println(x + " " + (aNumber+1) + " " + (bNumber+1));
+            System.out.println(x + " " + aNumber + " " + bNumber);
         }
     }
 
@@ -56,7 +58,8 @@ class Main {
                     } else {
                         return num - '0';
                     }
-                }).toArray();
+                })
+                .toArray();
     }
 
     static int maxValue(int arr[]) {
@@ -80,7 +83,7 @@ class Main {
     static long pow(int number, int pow) {
         long result = 1;
         for (int i = 0; i < pow; i++) {
-            result += number;
+            result *= number;
         }
         return result;
     }
