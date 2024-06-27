@@ -13,27 +13,22 @@ class Main {
         long[] count = new long[10];
         for (int i = 0; i < length; i++) {
             int pow = (int) Math.pow(10, i);
-            int share = n / (pow * 10);
-            int remainder = n % (pow * 10);
+            int upperPow = 10 * pow;
+            int share = n / upperPow;
+            int remainder = n % upperPow;
 
+            int upperRemainder = remainder / pow;
+            int lowerRemainder = remainder % pow;
             if (share > 0) {
                 for (int j = 0; j < 10; j++) {
                     count[j] += (j == 0 ? share - 1 : share) * pow;
                 }
-                int upperRemainder = remainder / pow;
-                int lowerRemainder = remainder % pow;
-                for (int j = 0; j < upperRemainder; j++) {
-                    count[j] += pow;
-                }
-                count[upperRemainder] += (lowerRemainder + 1);
-            } else {
-                int upperRemainder = remainder / pow;
-                int lowerRemainder = remainder % pow;
-                for (int j = 1; j < upperRemainder; j++) {
-                    count[j] += pow;
-                }
-                count[upperRemainder] += (lowerRemainder + 1);
             }
+            int start = (share > 0 ? 0 : 1);
+            for (int j = start; j < upperRemainder; j++) {
+                count[j] += pow;
+            }
+            count[upperRemainder] += (lowerRemainder + 1);
         }
 
         var sb = new StringBuilder();
