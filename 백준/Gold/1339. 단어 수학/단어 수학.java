@@ -5,7 +5,6 @@ class Main {
 
     static String[] input;
     static int[] count = new int[26];
-    static Set<Character> charSet = new HashSet<>();
 
     public static void main(String[] args) throws Exception {
         var br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,54 +14,21 @@ class Main {
         input = new String[n];
         for(int i=0;i<n;i++){
             input[i]=br.readLine();
-            input[i].chars()
-                .forEach(alpha -> charSet.add((char)alpha));
+            int pow = 1;
+            for(int j=input[i].length()-1;j>=0;j--){
+                count[input[i].charAt(j)-'A']+=pow;
+                pow*=10;
+            }
         }
-    
-        System.out.println(recursive(0,0,new int[charSet.size()]));
-    }
 
-    static int convert() {
+        Arrays.sort(count);
         int result = 0;
-        for (int i = 0; i < input.length; i++) {
-            int tmpResult = 0;
-            for(int j=0;j<input[i].length(); j++){
-                tmpResult = tmpResult * 10 + count[input[i].charAt(j)-'A'];
-            }
-            result+=tmpResult;
+        for(int i=0;i<10;i++){
+            if(count[26-i-1]==0) break;
+            result+=count[26-i-1]*(9-i);
         }
-        return result;
+        System.out.println(result);
     }
-
-    static int recursive(int idx, int bit, int[] permu) {
-        if (idx == charSet.size()) {
-            Arrays.fill(count,0);
-            int tmpIdx = 0;
-            for(char alpha: charSet){
-                count[alpha-'A']=permu[tmpIdx++];
-            }
-            
-            int result = convert();
-            return result;
-        } else {
-            int result = 0;
-            for (int i = 9; i > (9 - charSet.size()); i--) {
-                if(isMark(bit, i)) continue;
-                permu[idx]=i;
-                result = Math.max(result, recursive(idx+1, mark(bit, i),permu));
-            }
-            return result;
-        }
-    }
-
-    static int mark(int bit, int idx){
-        return bit | 1 << idx;
-    }
-
-    static boolean isMark(int bit, int idx){
-        return (bit & 1 << idx) > 0;
-    }
-
 
 
 }
