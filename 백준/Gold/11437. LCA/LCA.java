@@ -5,9 +5,10 @@ class Main {
 
 
     static int[] tree;
+    static int[][] table;
     static List<Integer>[] node;
-    static int[] check;
     static int root = 1;
+    static int[] d;
 
     public static void main(String[] args) throws Exception {
         var br = new BufferedReader(new InputStreamReader(System.in));
@@ -15,10 +16,10 @@ class Main {
 
         int n = Integer.parseInt(br.readLine());
 
-        check = new int[n + 1];
-
         tree = new int[n + 1];
         node = new List[n + 1];
+        table = new int[19][n+1];
+        d = new int[n+1];
         for (int i = 1; i <= n; i++) {
             node[i] = new ArrayList<>();
         }
@@ -32,7 +33,8 @@ class Main {
             node[n2].add(n1);
         }
 
-        makeTree(root, -1);
+        makeTree(root, -1, 0);
+        makeTable();
 
         int m = Integer.parseInt(br.readLine());
 
@@ -40,45 +42,64 @@ class Main {
             int[] input = Arrays.stream(br.readLine().split(" "))
                     .mapToInt(Integer::parseInt)
                     .toArray();
-            Arrays.fill(check, 0);
 
-            int current = input[0];
+            int n1 = input[0];
+            int n2 = input[1];
 
-            while (current != root) {
-                var edge = tree[current];
-                check[edge]=1;
-                current = edge;
-                
+            int d1 = d[n1]; // 앝은곳
+            int d2 = d[n2]; // 깊은곳
+
+            if(d1 > d2){
+                int tmp = n1;
+                n1 = n2;
+                n2 = tmp;
             }
 
-            current = input[1];
+            n2 = findAscendant(n2, d[n1]);
 
-            while (current != root && current != input[0]) {
-                var edge = tree[current];
-                if(check[current]!=0 && current == input[1]) break;
-                if(check[edge] != 0){
-                    current = edge;
-                    break;
-                }
-                check[edge]++;
-                current = edge;
-                if(edge == input[0]){
-                    break;
-                }
+
+            while(n1 != n2){
+                n1 = tree[n1];
+                n2 = tree[n2];
             }
 
-            bw.write(current + "\n");
+            bw.write(n1 + "\n");
         }
         bw.flush();
     }
 
-    static void makeTree(int currentNode, int parentNode) {
+    static void makeTree(int currentNode, int parentNode, int depth) {
         for (int next : node[currentNode]) {
             if (next == parentNode)
                 continue;
-            makeTree(next, currentNode);
+            makeTree(next, currentNode, depth+1);
         }
         tree[currentNode] = parentNode;
+        d[currentNode] = depth;
+    }
+
+    static void makeTable(){
+        table[0]=tree;
+        for(int i=1;i<=16;i++){
+            for(int j=1;j<tree.length;j++){
+                if(table[i-1][j]==-1) continue;
+                table[i][j]=table[i-1][table[i-1][j]];
+            }
+        }
+    }
+
+    static int findAscendant(int idx, int depth){
+        int currentDepth = d[idx];
+        int moveCount = currentDepth - depth;
+
+        int currentIdx=idx;
+        int maxTwo = 16;
+        for(;maxTwo >=0;maxTwo--){
+            if((moveCount & 1 << maxTwo) > 0){
+                currentIdx = table[maxTwo][currentIdx];
+            }
+        }
+        return currentIdx;
     }
     
 }
