@@ -55,15 +55,9 @@ class Main {
                 n2 = tmp;
             }
 
-            n2 = findAscendant(n2, d[n1]);
+            n2 = findAscendant(n2, d[n2]-d[n1]);
 
-
-            while(n1 != n2){
-                n1 = tree[n1];
-                n2 = tree[n2];
-            }
-
-            bw.write(n1 + "\n");
+            bw.write(findBothAscendant(n1, n2) + "\n");
         }
         bw.flush();
     }
@@ -89,8 +83,7 @@ class Main {
     }
 
     static int findAscendant(int idx, int depth){
-        int currentDepth = d[idx];
-        int moveCount = currentDepth - depth;
+        int moveCount = depth;
 
         int currentIdx=idx;
         int maxTwo = 16;
@@ -100,6 +93,24 @@ class Main {
             }
         }
         return currentIdx;
+    }
+
+
+
+    static int findBothAscendant(int n1, int n2){
+        if(n1 == n2){
+            return n1;
+        }
+        for(int i=1;;i*=2){
+            int tmpN1 = findAscendant(n1, i);
+            int tmpN2 = findAscendant(n2, i);
+            if(tmpN1 == 0 || tmpN1 == -1 || tmpN1 == tmpN2){
+                if(i == 1){
+                    return tmpN1;
+                }
+                return findBothAscendant(findAscendant(n1, i/2), findAscendant(n2, i/2));
+            }
+        }
     }
     
 }
