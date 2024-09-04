@@ -3,30 +3,31 @@ import java.io.*;
 
 class Main {
 
+    private static char[] ksa = { 'K', 'S', 'A' };
+
     public static void main(String[] args) throws Exception {
         var br = new BufferedReader(new InputStreamReader(System.in));
 
-        char[] x = br.readLine().toCharArray();
+        String x = br.readLine();
 
-        char[] ksa = { 'K', 'S', 'A' };
-        int add = 0;
-        if (x[0] != 'K') {
-            add = 2;
+        int result = Integer.MAX_VALUE;
+        for (int i = 0; i < 3; i++) {
+            result = Math.min(result, cal(x, i));
         }
-        int start = 1;
+        System.out.println(result);
 
-        /**
-         * 첫번쨰에서는 K로 바꿈에 의미를 둬야 할듯
-         */
-        for (int i = 1; i < x.length; i++) {
-            if (x[i] == ksa[start]) {
-                start = (start + 1) % 3;
+    }
+
+    private static int cal(String x, int start) {
+        int result = start;
+        for (int i = 0; i < x.length(); i++) {
+            if (x.charAt(i) == ksa[start % 3]) {
+                start++;
             } else {
-                add += 2;
+                result++; // 버린 횟수
             }
         }
-        System.out.println(add);
-
+        return result + Math.abs(x.length() - start);
     }
 
 }
